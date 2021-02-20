@@ -1,0 +1,7 @@
+{
+    "rust.all_features": true,
+    "testing.enableProblemDiagnostics": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modifications"
+}
