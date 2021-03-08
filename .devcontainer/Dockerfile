@@ -21,9 +21,12 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 ARG INSTALL_NEOVIM="true"
 COPY library-scripts/init.vim \
     library-scripts/install-neovim.sh \
+    library-scripts/update-bash.sh \
     /tmp/library-scripts/
 # RUN  if [ "$INSTALL_NEOVIM" = "true"]; then bash /tmp/library-scripts/install-neovim.sh; fi 
-RUN   bash /tmp/library-scripts/install-neovim.sh s
+RUN bash /tmp/library-scripts/install-neovim.sh \
+    && bash /tmp/library-scripts/update-bash.sh
+
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
