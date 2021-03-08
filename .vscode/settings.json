@@ -1,4 +1,8 @@
 {
+    "search.exclude": {
+        "**/target": true
+    },
+    "lldb.verboseLogging": true,
     "rust.all_features": true,
     "testing.enableProblemDiagnostics": true,
     "editor.formatOnPaste": true,
