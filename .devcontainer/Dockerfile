@@ -20,10 +20,19 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Install my tooling
 ARG INSTALL_NEOVIM="true"
 COPY library-scripts/init.vim \
-    library-scripts/install-neovim.sh \
-    /tmp/library-scripts/
+     library-scripts/install-neovim.sh \
+     /tmp/library-scripts/
 # RUN  if [ "$INSTALL_NEOVIM" = "true"]; then bash /tmp/library-scripts/install-neovim.sh; fi 
-RUN   bash /tmp/library-scripts/install-neovim.sh s
+RUN bash /tmp/library-scripts/install-neovim.sh 
+
+COPY library-scripts/github-ssh.sh \
+    library-scripts/update-bash.sh \
+    /tmp/library-scripts/
+RUN bash /tmp/library-scripts/github-ssh.sh "${USERNAME}" \
+    && bash /tmp/library-scripts/update-bash.sh "${USERNAME}"
+
+# final clean up
+# RUN apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

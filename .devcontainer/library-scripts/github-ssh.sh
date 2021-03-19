@@ -28,5 +28,24 @@ else
     USER_RC_PATH="/home/${USERNAME}"
 fi
 
-echo '# setting VI mode on the terminal 2021-01-30::wjs' >> ${USER_RC_PATH}/.bashrc
-echo 'set -o vi' >> ${USER_RC_PATH}/.bashrc
+
+# My logic
+SSH_AGENT="$(cat \
+<<EOF
+# configuring the ssh-agent to use with github
+if [ -z "\$SSH_AUTH_SOCK" ]; then
+   # Check for a currently running instance of the agent
+   RUNNING_AGENT="\`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'\`"
+   if [ "\$RUNNING_AGENT" = "0" ]; then
+        # Launch a new instance of the agent
+        ssh-agent -s &> \$HOME/.ssh/ssh-agent
+   fi
+   eval \`cat \$HOME/.ssh/ssh-agent\`
+fi
+EOF
+)"
+
+cp -r /tmp/library-scripts/ssh ${USER_RC_PATH}/.ssh/
+
+eval "$(ssh-agent -s)"
+echo "${SSH_AGENT}" >> ${USER_RC_PATH}/.bashrc
