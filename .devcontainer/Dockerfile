@@ -16,23 +16,18 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Install common packages, non-root user, updated lldb, dependencies
     && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" 
-    
+
 # Install my tooling
 ARG INSTALL_NEOVIM="true"
-COPY library-scripts/init.vim \
-     library-scripts/install-neovim.sh \
-     /tmp/library-scripts/
-# RUN  if [ "$INSTALL_NEOVIM" = "true"]; then bash /tmp/library-scripts/install-neovim.sh; fi 
-RUN bash /tmp/library-scripts/install-neovim.sh 
-
 COPY library-scripts/github-ssh.sh \
     library-scripts/update-bash.sh \
+    library-scripts/init.vim \
+    library-scripts/install-neovim.sh \
     /tmp/library-scripts/
-RUN bash /tmp/library-scripts/github-ssh.sh "${USERNAME}" \
-    && bash /tmp/library-scripts/update-bash.sh "${USERNAME}"
-
-# final clean up
-# RUN apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+RUN bash /tmp/library-scripts/install-neovim.sh  \
+    && bash /tmp/library-scripts/github-ssh.sh "${USERNAME}" \
+    && bash /tmp/library-scripts/update-bash.sh "${USERNAME}" \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

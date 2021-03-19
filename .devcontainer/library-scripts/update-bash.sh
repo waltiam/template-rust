@@ -7,7 +7,7 @@ if [ "${USERNAME}" = "auto" ] || [ "${USERNAME}" = "automatic" ]; then
     USERNAME=""
     POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
     for CURRENT_USER in ${POSSIBLE_USERS[@]}; do
-        if id -u ${CURRENT_USER} > /dev/null 2>&1; then
+        if id -u ${CURRENT_USER} >/dev/null 2>&1; then
             USERNAME=${CURRENT_USER}
             break
         fi
@@ -22,11 +22,18 @@ elif [ "${USERNAME}" = "none" ]; then
 fi
 
 # ** Shell customization section **
-if [ "${USERNAME}" = "root" ]; then 
+if [ "${USERNAME}" = "root" ]; then
     USER_RC_PATH="/root"
 else
     USER_RC_PATH="/home/${USERNAME}"
 fi
 
-echo '# setting VI mode on the terminal 2021-01-30::wjs' >> ${USER_RC_PATH}/.bashrc
-echo 'set -o vi' >> ${USER_RC_PATH}/.bashrc
+# we want the 'powerline' theme
+sed -i -e 's/OSH_THEME=.*/OSH_THEME="powerline"/g' ${USER_RC_FILE}/.bashrc
+
+# we want VI on the shell cli
+echo '# setting VI mode on the terminal 2021-01-30::wjs' >>${USER_RC_PATH}/.bashrc
+echo 'set -o vi' >>${USER_RC_PATH}/.bashrc
+
+# we want git to use nvim
+git config --global core.editor "nvim"
