@@ -29,11 +29,11 @@ else
 fi
 
 # we want the 'powerline' theme
-sed -i 's/OSH_THEME=.*/OSH_THEME="powerline"/g' ${USER_RC_PATH}/.bashrc
+sed -i 's/ZSH_THEME=".*"/ZSH_THEME="darkblood"/g' ${USER_RC_PATH}/.zshrc
 
 # we want VI on the shell cli
-echo '# setting VI mode on the terminal 2021-01-30::wjs' >>${USER_RC_PATH}/.bashrc
-echo 'set -o vi' >>${USER_RC_PATH}/.bashrc
+echo '# setting VI mode on the terminal 2021-01-30::wjs' >>${USER_RC_PATH}/.zshrc
+echo 'set -o vi' >>${USER_RC_PATH}/.zshrc
 
 # we want git to use nvim
 git config --global core.editor "nvim"

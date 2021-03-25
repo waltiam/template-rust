@@ -32,6 +32,7 @@ fi
 # My logic
 SSH_AGENT="$(cat \
 <<EOF
+
 # configuring the ssh-agent to use with github
 if [ -z "\$SSH_AUTH_SOCK" ]; then
    # Check for a currently running instance of the agent
@@ -45,7 +46,7 @@ fi
 EOF
 )"
 
-cp -r /tmp/library-scripts/ssh ${USER_RC_PATH}/.ssh/
+# cp -r /tmp/library-scripts/ssh ${USER_RC_PATH}/.ssh/
 
 eval "$(ssh-agent -s)"
 echo "${SSH_AGENT}" >> ${USER_RC_PATH}/.bashrc
